@@ -9,7 +9,7 @@ spec:
     server: https://kubernetes.default.svc 
   project: default 
   source: 
-    path: bubble-animation/application-mainfest
+    path: argocd-openshift1/argocd-openshift1-main/wordpress/application-manifest/
     repoURL: https://github.com/ajisha-sb/argocd-openshift1
     targetRevision: main
   syncPolicy: 
