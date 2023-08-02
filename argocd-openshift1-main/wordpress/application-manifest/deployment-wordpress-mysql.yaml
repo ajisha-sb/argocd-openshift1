@@ -1,0 +1,42 @@
+﻿kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: wordpress-mysql
+  namespace: wordpress
+  labels:
+    app: wordpress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordpress
+      tier: mysql
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: wordpress
+        tier: mysql
+    spec:
+      volumes:
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: mysql-pv-claim
+      containers:
+        - resources: {}
+          terminationMessagePath: /dev/termination-log
+          name: mysql
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: P@ssw0rd
+          ports:
+            - name: mysql
+              containerPort: 3306
+              protocol: TCP
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql
+          terminationMessagePolicy: File
+          image: 'mysql:5.6'
+      restartPolicy: Always

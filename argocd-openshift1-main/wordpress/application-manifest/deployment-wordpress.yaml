@@ -1,0 +1,43 @@
+﻿kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: wordpress
+  namespace: wordpress
+  labels:
+    app: wordpress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordpress
+      tier: frontend
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: wordpress
+        tier: frontend
+    spec:
+      volumes:
+        - name: wordpress-persistent-storage
+          persistentVolumeClaim:
+            claimName: wp-pv-claim
+      containers:
+          terminationMessagePath: /dev/termination-log
+          name: wordpress
+          env:
+            - name: WORDPRESS_DB_HOST
+              value: wordpress-mysql
+            - name: WORDPRESS_DB_PASSWORD
+              value: P@ssw0rd
+          ports:
+            - name: wordpress
+              containerPort: 80
+              protocol: TCP
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: wordpress-persistent-storage
+              mountPath: /var/www/html
+          terminationMessagePolicy: File
+          image: 'wordpress:4.8-apache'
+      restartPolicy: Always

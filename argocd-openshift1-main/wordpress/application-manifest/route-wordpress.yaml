@@ -1,0 +1,15 @@
+﻿kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: wordpress
+  namespace: wordpress
+  labels:
+    app: wordpress
+spec:
+  host: wordpress-wordpress.apps.ocp4.vismaya.com
+  to:
+    kind: Service
+    name: wordpress
+    weight: 100
+  port:
+    targetPort: 80
