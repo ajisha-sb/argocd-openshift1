@@ -1,16 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: bubble-animation-app
+  name: wordpress
   namespace: openshift-gitops
 spec:
   destination:
-    namespace: bubble-animation
+    namespace: argocd-test
     server: https://kubernetes.default.svc 
   project: default 
   source: 
     path: bubble-animation/application-mainfest
-    repoURL: https://github.com/ksingh7/argocd-openshift
+    repoURL: https://github.com/ajisha-sb/argocd-openshift1
     targetRevision: main
   syncPolicy: 
     automated:
